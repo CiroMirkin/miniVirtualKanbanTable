@@ -1,0 +1,79 @@
+.container {
+    --margin: 5vw;
+
+    padding: 2vw var(--margin);
+
+    display: flex;
+    justify-content: center;
+}
+
+
+.kandanTable {
+    --border: #000 1px solid;
+    list-style: none;
+
+    display: flex;
+    justify-content: space-evenly;
+    padding: 0;
+}
+.kandanTable__column {
+    --padding: 2vw;
+    display: table-row;
+}
+.kandanTable__column-header {
+    border-bottom: var(--border);
+    padding: var(--padding);
+}
+.kandanTable__column:nth-child(2) .kandanTable__column-header{
+    border-left: var(--border);
+    border-right: var(--border);
+}
+.kandanTable__column:nth-child(2) .kandanTable__column-body{
+    border-left: var(--border);
+    border-right: var(--border);
+}
+.kandanTable__column-body {
+    list-style: none;
+    padding: 1rem var(--padding) 0;
+}
+
+.kandanCard {
+    border-radius: 3px;
+    border: var(--border);
+    padding: .5rem;
+    margin: 0 0 15px;
+}
+
+.kandanCard__description {
+    display: none;
+}
+
+.kandanCard--more .kandanCard__description {
+    display: block;
+}
+
+.archiveOfCards {
+    display: none;
+}
+
+.archiveOfCards--show {
+    display: block;
+}
+
+.archiveOfCards__cards {
+    padding: 5px 1px;
+    list-style: none;
+}
+
+.archiveOfCards__cards-card {
+    border: var(--border);
+    border-radius: 2px;
+}
+
+.newTicket {
+    display: none;
+}
+
+.newTicket--show {
+    display: block;
+}

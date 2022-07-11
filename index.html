@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kandan simple</title>
+
+    <link rel="stylesheet" href="./src/css/styles.css">
+</head>
+<body>
+    <nav class="nav">
+        <a href="#">Github</a>
+        <header class="nav__header">Kandan simple</header>
+        <a href="#">C.Mirkin</a>
+    </nav>
+
+    <!-- <section class="">
+        <h1 class="title">Portafolio</h1>
+        <p class="text">Tablero kanban para la creacion de un portafolio web.</p>
+        <button class="btn" id="newCardBtn">Nueva tarjeta kandan</button>
+    </section> -->
+
+    <section class="panel">
+        <button class="newTicketBtn" id="newTicketBtn">Crear nuevo ticket</button>
+
+        <div class="newTicket" id="newTicket">
+            <form class="newTicketForm" id="newTicketForm">
+                <label for="form-title">Titulo</label>
+                <input type="text" name="form-title" id="addNewCardInputTitle">
+                <label for="form-desc">Descripcion</label>
+                <input type="text" name="form-desc" id="addNewCardInputDescription">
+                <button type="submit">Crear</button>
+            </form>
+        </div>
+    </section>
+    <main class="container"> 
+        <ul class="kandanTable" id="kandanTable">
+            <li class="kandanTable__column">
+                <header class="kandanTable__column-header">
+                    Trabajo pendiente
+                    <span class="cardsCount cardsCount--max" id="cardsCountColumn-waiting">(0)</span>
+                </header>
+                <ul class="kandanTable__column-body" id="waiting">
+                    <li class="kandanCard" id="xd">
+                        <header class="kandanCard__title">Crear navegación</header>
+                        <p class="kandanCard__description">Crear una navegacion para la pagina principal</p>
+                        <button class="kandanCard__btn kandanCard__btn--more">Mas</button>
+                        <button class="kandanCard__btn kandanCard__btn--move">mover</button>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="kandanTable__column">
+                <header class="kandanTable__column-header">
+                    Trabajo en proceso
+                    <span class="cardsCount cardsCount--max" id="cardsCountColumn-inProgress">(0)</span>
+                </header>
+                <ul class="kandanTable__column-body" id="inProgress">
+                </ul>
+            </li>
+            
+            <li class="kandanTable__column">
+                <header class="kandanTable__column-header">
+                    Trabajo terminado
+                    <span class="cardsCount cardsCount--max" id="cardsCountColumn-finish">(0)</span>
+                </header>
+                <ul class="kandanTable__column-body" id="finish">
+                </ul>
+                <button class="btn archiveOfCardsBtn">Ver tickets archivados</button>
+                <section class="archiveOfCards" id="archiveOfCards">
+                    <ul class="archiveOfCards__cards">
+                        <li class="archiveOfCards__cards-card" id="">
+                            <header class="archiveOfCards__cards-cardTitle">Crear navegacion</header>
+                            <p class="archiveOfCards__cards-cardDescription">Crear una navegacion para la pagina principal</p>
+                        </li>
+                    </ul>
+                </section>
+            </li>
+        </ul>
+    </main>
+
+    <script src="./src/js/workInProgress.js"></script>
+    <script src="./src/js/renderCards.js"></script>
+    <script src="./src/js/storage.js"></script>
+    <script src="./src/index.js"></script>
+</body>
+</html>
