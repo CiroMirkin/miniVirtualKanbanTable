@@ -5,7 +5,7 @@ class WorkInProgress {
         this.workInProgressLimits = { waiting: 4, inProgress: 2, finish: 4 }
     }
 
-    renderWorkInProgressLimits() {
+    showWorkInProgressLimits() {
         Object.entries(this.workInProgressLimits).forEach(([progressName, progressLimit]) => {
             document.getElementById(`cardsCountColumn-${progressName}`).innerText = `(${progressLimit})`
         })

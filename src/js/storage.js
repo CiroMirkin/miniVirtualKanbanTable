@@ -1,30 +1,30 @@
-class StorageAdim {
+class StorageAdmin {
     constructor(storageNameId) {
-        this.storageNameId = storageNameId
-        this.storageArchiveNameId = `${this.storageNameId}-archive`
+        this.storageTableName = storageNameId
+        this.storageArchiveName = `${this.storageTableName}-archive`
 
-        this.render = new Render()
+        this.show = new Show()
     }
 
     showTable() {
-        const storageTable = JSON.parse(localStorage.getItem(this.storageNameId)) || []
-
-        this.render.table(storageTable)
+        const storageTable = JSON.parse(localStorage.getItem(this.storageTableName)) || []
+        this.show.table(storageTable)
     }
 
     showArchive() {
-        const storageArchive = JSON.parse(localStorage.getItem(this.storageArchiveNameId)) || []
-
-        this.render.archive(storageArchive)
+        const storageArchive = JSON.parse(localStorage.getItem(this.storageArchiveName)) || []
+        this.show.archive(storageArchive)
     }
 
     saveTable(table) {
-        localStorage.setItem(this.storageNameId, JSON.stringify(table))
+        localStorage.setItem(this.storageTableName, JSON.stringify(table))
         this.showTable()
     }
 
-    saveArchive(archive) {
-        localStorage.setItem(this.storageArchiveNameId, JSON.stringify(archive))
+    saveArchive(newArchiveTicket) {
+        const storageArchive = JSON.parse(localStorage.getItem(this.storageArchiveName)) || []
+        storageArchive.push(newArchiveTicket)
+        localStorage.setItem(this.storageArchiveName, JSON.stringify(storageArchive))
         this.showArchive()
     }
 

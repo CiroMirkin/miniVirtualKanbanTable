@@ -3,30 +3,22 @@
 class KanbanTable {
     constructor() {
         this.table = {
-            waiting: [
-                {
-                    id: '2c',
-                    title: 'Tomar awa',
-                    description: 'awa de UwU',
-                    column: 'waiting'
-                }
-            ],
-            inProgress: [ ],
-            finish: [ ]
+            waiting: [],
+            inProgress: [],
+            finish: []
         }
-        this.archiveTickets = [ ]
 
         this.workInProgress = new WorkInProgress()
-        this.workInProgress.renderWorkInProgressLimits()
+        this.workInProgress.showWorkInProgressLimits()
 
-        this.storage = new StorageAdim('kanban')
+        this.storage = new StorageAdmin('kanban')
     }
 
-    renderSavedTickets() {
+    showSavedTickets() {
         this.storage.showTable()
     }
 
-    renderSavedArchive() {
+    showSavedArchive() {
         this.storage.showArchive()
     }
 
@@ -88,18 +80,17 @@ class KanbanTable {
         this.storage.saveTable(this.table)
     }
 
-    archiveFinishCard(ticketid) {
-       const ticket = this.table['finish'].filter(ticketInColumn => ticketInColumn.id === ticketid)
-       this.table.finish = this.table.finish.filter(ticketInColumn => ticketInColumn.id !== ticketid)
+    archiveFinishCard(ticketId) {
+       const ticket = this.table.finish.filter(ticketInColumn => ticketInColumn.id == ticketId)
+       this.table.finish = this.table.finish.filter(ticketInColumn => ticketInColumn.id !== ticketId)
 
-       this.archiveTickets.push(ticket.at(0))
-       this.storage.saveArchive(this.archiveTickets)
+       this.storage.saveArchive(ticket.at(0))
        this.storage.saveTable(this.table)
     }
 }
 
 const kanbanTable = new KanbanTable()
-kanbanTable.renderSavedTickets()
+kanbanTable.showSavedTickets()
 
 const kandanTableElement = document.getElementById('kandanTable')
 
@@ -118,7 +109,7 @@ const clasesBtnAndHisFunction = {
         kanbanTable.archiveFinishCard(e.target.parentElement.id)
     },
     'archiveOfCardsBtn': (e) => {
-        kanbanTable.renderSavedArchive()
+        kanbanTable.showSavedArchive()
     }
 }
 
@@ -134,7 +125,7 @@ const newTicketBtn = document.getElementById('newTicketBtn')
 const newTicketForm = document.getElementById('newTicketForm')
 
 newTicketBtn.addEventListener('click', () => {
-    document.getElementById('newTicket').classList.add('newTicket--show')
+    document.getElementById('newTicket').classList.toggle('newTicket--show')
 })
 
 const newTicketTitleInput = document.getElementById('addNewCardInputTitle')
@@ -144,7 +135,7 @@ newTicketForm.addEventListener('submit', (e) => {
     e.preventDefault()
 
     kanbanTable.addNewTicket({
-        id: '',
+        id: generateID(),
         title: newTicketTitleInput.value,
         description: newTicketTitleDescription.value,
         column: 'waiting'
@@ -152,5 +143,5 @@ newTicketForm.addEventListener('submit', (e) => {
 
     newTicketTitleInput.value = ''
     newTicketTitleDescription.value = ''
-    document.getElementById('addNewCard').classList.remove('addNewCard--show')
+    document.getElementById('newTicket').classList.remove('newTicket--show')
 })

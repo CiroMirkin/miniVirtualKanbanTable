@@ -1,3 +1,17 @@
+:root {
+    --p: 5vw;
+}
+
+button {
+    border: #000 1px solid;
+    padding: 2px 4px;
+    background: #fff;
+}
+
+button:hover {
+    background: #ccc;
+} 
+
 .container {
     --margin: 5vw;
 
@@ -7,6 +21,29 @@
     justify-content: center;
 }
 
+.nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5vw var(--p);
+    font-size: 2ch;
+}
+
+.nav__header {
+    font-size: 2.5ch;
+}
+
+.panel {
+    width: 100%;
+    padding: 2vw var(--p);
+    box-sizing: border-box;
+    /* background: #eee; */
+}
+
+.newTicket {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 15px 0 0;
+}
 
 .kandanTable {
     --border: #000 1px solid;
@@ -38,14 +75,41 @@
 }
 
 .kandanCard {
+    --kanbanCardBorder: #000 4px solid;
     border-radius: 3px;
-    border: var(--border);
-    padding: .5rem;
+    border-top: #000 1.5px solid;
+    border-left: #000 1.5px solid;
+    border-bottom: var(--kanbanCardBorder);
+    border-right: var(--kanbanCardBorder);
+    padding: 1rem;
     margin: 0 0 15px;
+
+    text-align: center;
+}
+
+.kandanCard__title {
+    font-size: 2.2ch;
+    margin-bottom: 10px;
 }
 
 .kandanCard__description {
     display: none;
+    padding: 5px 0;
+    font-size: 2ch;
+    border-top: var(--border);
+    border-bottom: var(--border);
+}
+
+.kandanCard__btn {
+    margin: 1px;
+    display: inline-block;
+    border: var(--border);
+    border-radius: 2px;
+    background: #fff;
+    text-transform: capitalize;
+}
+.kandanCard__btn:hover {
+    background: #ccc;
 }
 
 .kandanCard--more .kandanCard__description {
@@ -66,8 +130,28 @@
 }
 
 .archiveOfCards__cards-card {
-    border: var(--border);
-    border-radius: 2px;
+    --kanbanCardBorder: #000 2px solid;
+    border-radius: 3px;
+    border-top: #000 1px solid;
+    border-left: #000 1px solid;
+    border-bottom: var(--kanbanCardBorder);
+    border-right: var(--kanbanCardBorder);
+    padding: .5rem;
+    margin: 6px 0;
+
+    text-align: center;
+}
+
+.archiveOfCards__cards-cardTitle {
+    font-size: 2.2ch;
+    margin-bottom: 10px;
+
+}
+
+.archiveOfCards__cards-cardDescription {
+    padding: 5px 0;
+    font-size: 2ch;
+    border-top: var(--border);
 }
 
 .newTicket {

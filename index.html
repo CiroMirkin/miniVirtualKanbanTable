@@ -41,14 +41,7 @@
                     Trabajo pendiente
                     <span class="cardsCount cardsCount--max" id="cardsCountColumn-waiting">(0)</span>
                 </header>
-                <ul class="kandanTable__column-body" id="waiting">
-                    <li class="kandanCard" id="xd">
-                        <header class="kandanCard__title">Crear navegación</header>
-                        <p class="kandanCard__description">Crear una navegacion para la pagina principal</p>
-                        <button class="kandanCard__btn kandanCard__btn--more">Mas</button>
-                        <button class="kandanCard__btn kandanCard__btn--move">mover</button>
-                    </li>
-                </ul>
+                <ul class="kandanTable__column-body" id="waiting"></ul>
             </li>
 
             <li class="kandanTable__column">
@@ -56,8 +49,7 @@
                     Trabajo en proceso
                     <span class="cardsCount cardsCount--max" id="cardsCountColumn-inProgress">(0)</span>
                 </header>
-                <ul class="kandanTable__column-body" id="inProgress">
-                </ul>
+                <ul class="kandanTable__column-body" id="inProgress"></ul>
             </li>
             
             <li class="kandanTable__column">
@@ -65,24 +57,19 @@
                     Trabajo terminado
                     <span class="cardsCount cardsCount--max" id="cardsCountColumn-finish">(0)</span>
                 </header>
-                <ul class="kandanTable__column-body" id="finish">
-                </ul>
+                <ul class="kandanTable__column-body" id="finish"></ul>
                 <button class="btn archiveOfCardsBtn">Ver tickets archivados</button>
                 <section class="archiveOfCards" id="archiveOfCards">
-                    <ul class="archiveOfCards__cards">
-                        <li class="archiveOfCards__cards-card" id="">
-                            <header class="archiveOfCards__cards-cardTitle">Crear navegacion</header>
-                            <p class="archiveOfCards__cards-cardDescription">Crear una navegacion para la pagina principal</p>
-                        </li>
-                    </ul>
+                    <ul class="archiveOfCards__cards"></ul>
                 </section>
             </li>
         </ul>
     </main>
 
     <script src="./src/js/workInProgress.js"></script>
-    <script src="./src/js/renderCards.js"></script>
+    <script src="./src/js/showTickets.js"></script>
     <script src="./src/js/storage.js"></script>
-    <script src="./src/index.js"></script>
+    <script src="./src/js/generateID.js"></script>
+    <script src="./src/index.js" type="module"></script>
 </body>
 </html>
