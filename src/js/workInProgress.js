@@ -3,6 +3,7 @@
 class WorkInProgress {
     constructor() {
         this.workInProgressLimits = { waiting: 4, inProgress: 2, finish: 4 }
+        this.showWorkInProgressLimits()
     }
 
     showWorkInProgressLimits() {

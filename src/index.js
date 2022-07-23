@@ -2,14 +2,7 @@
 
 class KanbanTable {
     constructor() {
-        this.table = {
-            waiting: [],
-            inProgress: [],
-            finish: []
-        }
-
-        this.workInProgress = new WorkInProgress()
-        this.workInProgress.showWorkInProgressLimits()
+        this.table = {}
 
         this.storage = new StorageAdmin('kanban')
     }
@@ -22,70 +15,20 @@ class KanbanTable {
         this.storage.showArchive()
     }
 
-    hasThisColumnSpace(columnName) {
-        return this.workInProgress.hasThisColumnSpace({
-            columnName,
-            columnLenght: this.table[columnName].length + 1
-        })
-    }
-
     addNewTicket(ticket) {
-        if(this.hasThisColumnSpace(ticket.column)) {
-            this.table.waiting.push(ticket)
-            this.storage.saveTable(this.table)
-        }
-    }
-
-    getTicketToMove(ticketId) {
-        let ticket = { }
-
-        Object.entries(this.table).forEach((column) => {
-            const ticketInfo = column[1].find(ticketInColumn => ticketInColumn.id === ticketId)
-
-            if(!!ticketInfo) {
-                ticket = ticketInfo
-            }
-        })
-
-        return ticket
+        this.storage.addNewTicket(ticket)
     }
 
     moveTicket(ticketId) {
-        let ticket = this.getTicketToMove(ticketId) 
-        const tableColumnsName = Object.keys(this.table)
-
-        for (let columnIndex = 0; columnIndex < tableColumnsName.length; columnIndex++) {
-            const column = this.table[tableColumnsName[columnIndex]]
-            const ticketExits = column.findIndex(ticketInColumn => ticketInColumn.id === ticket.id)
-
-            if (
-                ticketExits !== -1 &&
-                (columnIndex + 1) !== tableColumnsName.length &&
-                this.hasThisColumnSpace(tableColumnsName[columnIndex + 1])
-            ) {
-                this.table[tableColumnsName[columnIndex]] = column.filter(cardInColumn => cardInColumn.id !== ticket.id)
-                ticket.column = tableColumnsName[columnIndex + 1]
-                this.table[tableColumnsName[columnIndex + 1]].push(ticket)
-                break
-            }
-        }
-
-        this.storage.saveTable(this.table)
+        this.storage.moveTicket(ticketId)
     }
 
     deleteWaitingTicket(ticketId) {
-        const columnName = 'waiting'
-        this.table[columnName] = this.table[columnName].filter(ticket => ticket.id !== ticketId)
-    
-        this.storage.saveTable(this.table)
+        this.storage.deleteWaitingTicket(ticketId)
     }
 
-    archiveFinishCard(ticketId) {
-       const ticket = this.table.finish.filter(ticketInColumn => ticketInColumn.id == ticketId)
-       this.table.finish = this.table.finish.filter(ticketInColumn => ticketInColumn.id !== ticketId)
-
-       this.storage.saveArchive(ticket.at(0))
-       this.storage.saveTable(this.table)
+    archiveFinishTicket(ticketId) {
+        this.storage.archiveTicket(ticketId)
     }
 }
 
@@ -106,7 +49,7 @@ const clasesBtnAndHisFunction = {
         kanbanTable.deleteWaitingTicket(e.target.parentElement.id) 
     },
     'kandanCard__btn--archive': (e) => {
-        kanbanTable.archiveFinishCard(e.target.parentElement.id)
+        kanbanTable.archiveFinishTicket(e.target.parentElement.id)
     },
     'archiveOfCardsBtn': (e) => {
         kanbanTable.showSavedArchive()
