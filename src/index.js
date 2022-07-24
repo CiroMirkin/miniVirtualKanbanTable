@@ -1,36 +1,6 @@
 "use strict"
-
-class KanbanTable {
-    constructor() {
-        this.table = {}
-
-        this.storage = new StorageAdmin('kanban')
-    }
-
-    showSavedTickets() {
-        this.storage.showTable()
-    }
-
-    showSavedArchive() {
-        this.storage.showArchive()
-    }
-
-    addNewTicket(ticket) {
-        this.storage.addNewTicket(ticket)
-    }
-
-    moveTicket(ticketId) {
-        this.storage.moveTicket(ticketId)
-    }
-
-    deleteWaitingTicket(ticketId) {
-        this.storage.deleteWaitingTicket(ticketId)
-    }
-
-    archiveFinishTicket(ticketId) {
-        this.storage.archiveTicket(ticketId)
-    }
-}
+import KanbanTable from "./js/kanbanTable.js"
+import { generateID } from "./js/generateID.js"
 
 const kanbanTable = new KanbanTable()
 kanbanTable.showSavedTickets()
@@ -77,14 +47,16 @@ const newTicketTitleDescription = document.getElementById('addNewCardInputDescri
 newTicketForm.addEventListener('submit', (e) => {
     e.preventDefault()
 
-    kanbanTable.addNewTicket({
-        id: generateID(),
-        title: newTicketTitleInput.value,
-        description: newTicketTitleDescription.value,
-        column: 'waiting'
-    })
-
-    newTicketTitleInput.value = ''
-    newTicketTitleDescription.value = ''
-    document.getElementById('newTicket').classList.remove('newTicket--show')
+    if(!!newTicketTitleInput.value) {
+        kanbanTable.addNewTicket({
+            id: generateID(),
+            title: newTicketTitleInput.value,
+            description: newTicketTitleDescription.value,
+            column: 'waiting'
+        })
+    
+        newTicketTitleInput.value = ''
+        newTicketTitleDescription.value = ''
+        document.getElementById('newTicket').classList.remove('newTicket--show')
+    }
 })

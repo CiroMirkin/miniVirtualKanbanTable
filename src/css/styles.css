@@ -2,6 +2,10 @@
     --p: 5vw;
 }
 
+a {
+    color: #000;
+}
+
 button {
     border: #000 1px solid;
     padding: 2px 4px;
@@ -34,7 +38,7 @@ button:hover {
 
 .panel {
     width: 100%;
-    padding: 2vw var(--p);
+    padding: 2vw var(--p) 5px;
     box-sizing: border-box;
     /* background: #eee; */
 }
@@ -72,6 +76,7 @@ button:hover {
 .kandanTable__column-body {
     list-style: none;
     padding: 1rem var(--padding) 0;
+    min-height: 46vh;
 }
 
 .kandanCard {
@@ -101,7 +106,6 @@ button:hover {
 }
 
 .kandanCard__btn {
-    margin: 1px;
     display: inline-block;
     border: var(--border);
     border-radius: 2px;

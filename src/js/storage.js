@@ -1,4 +1,7 @@
-class StorageAdmin {
+import Show from "./showTickets.js"
+import WorkInProgress from "./workInProgress.js"
+
+export default class StorageAdmin {
     constructor(storageNameId) {
         this.storageTableName = storageNameId
         this.storageArchiveName = `${this.storageTableName}-archive`
@@ -12,28 +15,14 @@ class StorageAdmin {
 
     #updateTable() {
         this.table = JSON.parse(localStorage.getItem(this.storageTableName)) || []
-    }
-
-    hasThisColumnSpace(columnName) {
-        return this.workInProgress.hasThisColumnSpace({
-            columnName,
-            columnLenght: this.table[columnName].length + 1
-        })
-    }
-
-    getTicketToMove(ticketId) {
-        let ticket = {}
-        this.#updateTable()
-
-        Object.entries(this.table).forEach(([columnName, column]) => {
-            const ticketInfo = column.find(ticketInColumn => ticketInColumn.id === ticketId)
-
-            if (!!ticketInfo) {
-                ticket = ticketInfo
+        
+        if(!this.table.waiting) {
+            this.table = {
+                waiting: [],
+                inProgress: [],
+                finish: []
             }
-        })
-
-        return ticket
+        }
     }
 
     moveTicket(ticketId) {
@@ -59,6 +48,28 @@ class StorageAdmin {
         }
     }
 
+    getTicketToMove(ticketId) {
+        let ticket = {}
+        this.#updateTable()
+
+        Object.entries(this.table).forEach(([columnName, column]) => {
+            const ticketInfo = column.find(ticketInColumn => ticketInColumn.id === ticketId)
+
+            if (!!ticketInfo) {
+                ticket = ticketInfo
+            }
+        })
+
+        return ticket
+    }
+
+    hasThisColumnSpace(columnName) {
+        return this.workInProgress.hasThisColumnSpace({
+            columnName,
+            columnLenght: this.table[columnName].length + 1
+        })
+    }
+
     addNewTicket(ticket) {
         this.#updateTable()
         if (this.hasThisColumnSpace(ticket.column)) {
@@ -72,7 +83,7 @@ class StorageAdmin {
         const columnName = 'waiting'
         this.table[columnName] = this.table[columnName].filter(ticket => ticket.id !== ticketId)
 
-        this.storage.saveTable()
+        this.saveTable()
     }
 
     saveTable() {

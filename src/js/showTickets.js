@@ -1,4 +1,4 @@
-class Show {
+export default class Show {
     constructor() {
         this.typesOfTicketsAndHisButtons = {
             waiting: `
