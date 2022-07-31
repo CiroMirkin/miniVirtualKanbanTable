@@ -2,8 +2,8 @@
 import KanbanTable from "./js/kanbanTable.js"
 import { generateID } from "./js/generateID.js"
 
-const kanbanTable = new KanbanTable()
-kanbanTable.showSavedTickets()
+const kanbanTable = new KanbanTable('kanban')
+kanbanTable.showTable()
 
 const kandanTableElement = document.getElementById('kandanTable')
 
@@ -22,7 +22,7 @@ const clasesBtnAndHisFunction = {
         kanbanTable.archiveFinishTicket(e.target.parentElement.id)
     },
     'archiveOfCardsBtn': (e) => {
-        kanbanTable.showSavedArchive()
+        kanbanTable.showArchive()
     }
 }
 
