@@ -1,59 +1,30 @@
 import Show from "./showTickets.js"
 import WorkInProgress from "./workInProgress.js"
 
+let table = {}
+
 export default class KanbanTable {
-    constructor(storageNameId) {
-        this.table = {}
-
-        this.storageTableName = storageNameId
-        this.storageArchiveName = `${this.storageTableName}-archive`
-
-        this.show = new Show()
+    constructor() {
         this.workInProgress = new WorkInProgress()
+        this.storage = new Storage('kanban')
         
-        this.#updateTable()
-    }
-
-    #updateTable() {
-        this.table = JSON.parse(localStorage.getItem(this.storageTableName)) || []
-        
-        if(!this.table.waiting) {
-            this.table = {
-                waiting: [],
-                inProgress: [],
-                finish: []
-            }
-        }
-    }
-
-    saveTable() {
-        localStorage.setItem(this.storageTableName, JSON.stringify(this.table))
-        this.showTable()
-    }
-
-    showTable() {this.#updateTable()
-        this.show.table(this.table)
-    }
-
-    showArchive() {
-        const archive = JSON.parse(localStorage.getItem(this.storageArchiveName)) || []
-        this.show.archive(archive)
+        this.storage.updateTable()
     }
 
     addNewTicket(ticket) {
-        this.#updateTable()
+        this.storage.updateTable()
         if (this.hasThisColumnSpace(ticket.column)) {
-            this.table.waiting.push(ticket)
-            this.saveTable()
+            table.waiting.push(ticket)
+            this.storage.saveTable()
         }
     }
 
     moveTicket(ticketId) {
         let ticket = this.getTicketToMove(ticketId)
-        const tableColumnsName = Object.keys(this.table)
+        const tableColumnsName = Object.keys(table)
 
         for (let columnIndex = 0; columnIndex < tableColumnsName.length; columnIndex++) {
-            let column = this.table[tableColumnsName[columnIndex]]
+            let column = table[tableColumnsName[columnIndex]]
             const nextColumn = columnIndex + 1
 
             let ticketExits = column.findIndex(ticketInColumn => ticketInColumn.id === ticket.id)
@@ -61,11 +32,11 @@ export default class KanbanTable {
 
 
             if (ticketExits && nextColumn !== tableColumnsName.length && this.hasThisColumnSpace(tableColumnsName[nextColumn])) {
-                this.table[tableColumnsName[columnIndex]] = column.filter(ticketInColumn => ticketInColumn.id !== ticket.id)
+                table[tableColumnsName[columnIndex]] = column.filter(ticketInColumn => ticketInColumn.id !== ticket.id)
                 ticket.column = tableColumnsName[nextColumn]
 
-                this.table[tableColumnsName[nextColumn]].push(ticket)
-                this.saveTable()
+                table[tableColumnsName[nextColumn]].push(ticket)
+                this.storage.saveTable()
                 break
             }
         }
@@ -73,9 +44,9 @@ export default class KanbanTable {
 
     getTicketToMove(ticketId) {
         let ticket = {}
-        this.#updateTable()
+        this.storage.updateTable()
 
-        Object.entries(this.table).forEach(([columnName, column]) => {
+        Object.entries(table).forEach(([columnName, column]) => {
             const ticketInfo = column.find(ticketInColumn => ticketInColumn.id === ticketId)
 
             if (!!ticketInfo) {
@@ -89,25 +60,52 @@ export default class KanbanTable {
     hasThisColumnSpace(columnName) {
         return this.workInProgress.hasThisColumnSpace({
             columnName,
-            columnLenght: this.table[columnName].length + 1
+            columnLenght: table[columnName].length + 1
         })
     }
 
     deleteWaitingTicket(ticketId) {
-        this.#updateTable()
+        this.storage.updateTable()
         const columnName = 'waiting'
-        this.table[columnName] = this.table[columnName].filter(ticket => ticket.id !== ticketId)
+        table[columnName] = table[columnName].filter(ticket => ticket.id !== ticketId)
 
-        this.saveTable()
+        this.storage.saveTable()
     }
 
     archiveFinishTicket(ticketId) {
-        this.#updateTable()
-        const ticket = this.table.finish.filter(ticketInColumn => ticketInColumn.id == ticketId)
-        this.table.finish = this.table.finish.filter(ticketInColumn => ticketInColumn.id !== ticketId)
+        this.storage.updateTable()
+        const ticket = table.finish.filter(ticketInColumn => ticketInColumn.id == ticketId)
+        table.finish = table.finish.filter(ticketInColumn => ticketInColumn.id !== ticketId)
 
-        this.saveArchive(ticket.at(0))
-        this.saveTable()
+        this.storage.saveArchive(ticket.at(0))
+        this.storage.saveTable()
+    }
+}
+
+class Storage {
+    constructor(storageName) {
+        this._storageTableName = storageName
+        this.storageArchiveName = `${this._storageTableName}-archive`
+
+        this.show = new Show()
+        this.updateTable()
+        this.#showTable()
+    }
+    
+    updateTable() {
+        table = JSON.parse(localStorage.getItem(this.storageTableName)) || []
+        
+        if(!table.waiting) {
+            table = {
+                waiting: [],
+                inProgress: [],
+                finish: []
+            }
+        }
+    }
+
+    #showTable() {
+        this.show.table(table)
     }
 
     saveArchive(newArchiveTicket) {
@@ -116,5 +114,15 @@ export default class KanbanTable {
 
         localStorage.setItem(this.storageArchiveName, JSON.stringify(archive))
         this.showArchive()
+    }
+    
+    showArchive() {
+        const archive = JSON.parse(localStorage.getItem(this.storageArchiveName)) || []
+        this.show.archive(archive)
+    }
+    
+    saveTable() {
+        localStorage.setItem(this.storageTableName, JSON.stringify(table))
+        this.#showTable()
     }
 }
