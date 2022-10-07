@@ -10,4 +10,4 @@ The proyect uses:
 
 # Kanban table picture
 
-![virtual Kanban table](./screen.JPG)
+![virtual Kanban table](./screenshot.png)
